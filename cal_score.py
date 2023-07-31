@@ -24,7 +24,7 @@ from models.layer1_model import ProfessionalSequenceLabelWeightsModel, EmployeeP
 from models.layer2_model import EmployeeBaseScoreModel
 
 #建立mysql链接
-engine = create_engine('mysql+pymysql://hruser:12345@110.40.154.26:3306/talents', echo=True)
+engine = create_engine('', echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
