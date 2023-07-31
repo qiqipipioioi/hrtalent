@@ -1,0 +1,11 @@
+{
+    "语义模版": {
+        "yuyi_mod1": "您{weidu_name}下的得分与下一级目标相比，{yuyi1}，未来我们建议您{yuyi2}",
+        "yuyi_mod2": "您{weidu_name}下的得分与下一级目标相比，{yuyi1}，未来我们建议您{yuyi2}，同时也{yuyi3}",
+        "yuyi_mod3": "您{weidu_name}下的得分与下一级目标相比，{yuyi1}，但您在{guanlian_weidu}下具有{yuyi2}的{guanlian_yuyi1}，因此未来我们建议您{yuyi3}，同时也{yuyi4}",
+        "yuyi_mod4": "您{weidu_name}下的得分与下一级目标相比，{yuyi1}，但您在{guanlian_weidu}下具有{yuyi2}的{guanlian_yuyi1}以及{yuyi3}的{guanlian_yuyi2}，因此未来我们建议您{yuyi4}，同时也{yuyi5}",
+        "yuyi_mod5": "您{weidu_name}下的得分与下一级目标相比，{yuyi1}，但您在{guanlian_weidu}下具有{yuyi2}的{guanlian_yuyi1}，因此未来我们建议您{yuyi3}",
+        "yuyi_mod6": "您{weidu_name}下的得分与下一级目标相比，{yuyi1}，但您在{guanlian_weidu}下具有{yuyi2}的{guanlian_yuyi1}以及{yuyi3}的{guanlian_yuyi2}，因此未来我们建议您{yuyi4}"
+    }
+}
+

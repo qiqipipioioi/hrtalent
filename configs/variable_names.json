@@ -1,0 +1,106 @@
+{
+    "基础标签":{
+            "在行持续服务年限": "base_zhnx",
+            "当前序列": "base_dqxl",
+            "过去序列": "base_gqxl",
+            "当前岗位": "base_dqgw",
+            "过去岗位": "base_gqgw",
+            "当年参与行内活动情况": "base_dnhd",
+            "过往参与行内活动情况": "base_gqhd",
+            "出勤情况": "base_cqqk",
+            "工具使用情况": "base_gjsy",
+            "当年工作立体评估": "base_dnpg",
+            "当年工作业绩评价": "base_dnyj",
+            "当年工作荣誉": "base_dnry",
+            "在行累积工作荣誉": "base_ljry",
+            "当年违规行为": "base_dnwg",
+            "过去违规行为": "base_gqwg",
+            "当年纪律处分": "base_dncf",
+            "过去纪律处分": "base_gqcf",
+            "全日制教育": "base_qrjy",
+            "职称情况": "base_zcqk",
+            "技术资格情况": "base_jszg",
+            "绩效考核成长": "base_jxcz",
+            "工作立体评估成长": "base_pgcz",
+            "过去工作经验": "base_gqgz",
+            "参与行外活动情况": "base_hwhd",
+            "全员轮训情况": "base_qylx",
+            "内训师资格": "base_nxzg",
+            "学习平台得分情况": "base_xxpt",
+            "在职教育": "base_zzjy",
+            "综合能力": "base_zhnl",
+            "性格评测": "base_xgpc",
+            "家庭成员关系": "base_jtcy",
+            "社会关系": "base_shgx"
+        },
+    "序列相关基础标签": {
+            "当前序列": "base_dqxl",
+            "过去序列": "base_gqxl",
+            "技术资格情况": "base_jszg",
+            "过去工作经验": "base_gqgz"
+    },
+    
+    "语义标签": {
+            "行内经验": "lang_hnjy",
+            "行内活动": "lang_hnhd",
+            "当年行为": "lang_dnxw",
+            "当年表现": "lang_dnbx",
+            "荣誉情况": "lang_ryqk",
+            "违规行为": "lang_wgxw",
+            "纪律处分": "lang_jlcf",
+            "基础学历": "lang_jcxl",
+            "专业技术": "lang_zyjs",
+            "持续表现": "lang_cxbx",
+            "其他经验": "lang_qtjy",
+            "其他活动": "lang_qthd",
+            "行内培训": "lang_hnpx",
+            "学历提升": "lang_xlts",
+            "关系拓展": "lang_gxtz"
+        },
+
+    "维度标签": {
+            "工作历程": "dimn_gzlc",
+            "工作情况": "dimn_gzqk",
+            "荣誉表彰": "dimn_rybz",
+            "违规惩处": "dimn_wgcc",
+            "专业能力": "dimn_zynl",
+            "工作成长": "dimn_gzcz",
+            "行外经历": "dimn_hwjl",
+            "学习提升": "dimn_xxts",
+            "关系拓扑": "dimn_gxtp"
+    },
+    "专业序列": {
+            "综合评分": "seqc_zhpf",
+            "综合管理": "seqc_zhgl",
+            "内控合规": "seqc_nkhg",
+            "风险管理": "seqc_fxgl",
+            "信息技术": "seqc_xxjs",
+            "资源配置": "seqc_zypz",
+            "零售业务管理": "seqc_lsyw",
+            "公司业务管理": "seqc_gsyw",
+            "资金业务管理": "seqc_zjyw",
+            "运管员及运营经理": "seqc_ygyy",
+            "运营操作": "seqc_yycz",
+            "柜员": "seqc_gyxl",
+            "零售客户经理": "seqc_lsjl",
+            "理财经理": "seqc_lcjl",
+            "私行财富经理": "seqc_shjl",
+            "公司客户经理": "seqc_gsjl",
+            "渠道经理": "seqc_qdjl",
+            "工勤": "seqc_gqxl"
+    },
+    "综合评分等级": {
+            "一星": "0",
+            "二星": "1",
+            "三星": "2",
+            "四星": "3",
+            "五星": "4"
+    },
+    "专业序列排名": {
+            "初级": "0",
+            "中级": "1",
+            "高级": "2",
+            "资深": "3"
+    }
+}
+
