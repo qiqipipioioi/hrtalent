@@ -48,6 +48,7 @@ def calculate_in_bank_working_experience_score():
         #计算当前岗位序列得分
 
         #计算基础分
+        # 序列：bm_gwseq
         base_score = 0
         if x['二级序列'] in ['工勤', '柜员']:
             base_score = 40
@@ -55,6 +56,7 @@ def calculate_in_bank_working_experience_score():
             base_score = 50
 
         #计算行员等级系数
+        # 行员等级：bm_jp_a01
         emp_lv_factor = 1
         if x['行员等级'] in ['十二级', '十一级']:
             emp_lv_factor = 1

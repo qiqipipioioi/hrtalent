@@ -9,9 +9,9 @@ import numpy as np
 import datetime
 import time
 import re
+from models.layer1_model import ViolateScoreSet, BaseInfo
 
-
-def cal_punish_score(now_year):
+def cal_punish_score(now_year,session):
 
     now_year = int(now_year)
 
@@ -94,7 +94,7 @@ def cal_punish_score(now_year):
     df_weigui_past_group.rename('累计违规扣分',inplace=True)
 
     #员工统计
-    df_base = pd.read_excel('seqdata\个人基本信息_20230707154119.xlsx', dtype=str)
+    df_base = pd.read_sql(session.query(BaseInfo).statement, session.bind)
     df_base[['员工号', '姓名', '一级机构', '二级机构', '中心', '岗位', '入行时间', '任现岗位时间','行员等级']]
 
     #筛选出非高管和首席的员工

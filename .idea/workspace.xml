@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c40c7a64-d942-4f0d-8f42-dd430750a9ef" name="Changes" comment="add table class">
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]1/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/layer1_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/layer1_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzlc_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzlc_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzqk_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzqk_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_xxts_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_xxts_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_zynl_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_zynl_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/professional_ability.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/professional_ability.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/relation_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/relation_score.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="branch1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="df3b7c53-b9d2-4318-b47d-cd1b45978c15" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/models/layer1_model.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/processes/layer1/relation_score.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectId" id="2TJhnr7PvI0BxIFPQyk8zbNnDjI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="exceleditor.install" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="dimn_hwjl_score" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Program Files\Python37\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/processes/layer1" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.dimn_hwjl_score" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c40c7a64-d942-4f0d-8f42-dd430750a9ef" name="Changes" comment="" />
+      <created>1690767260786</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1690767260786</updated>
+      <workItem from="1690767262876" duration="18830000" />
+      <workItem from="1690850417001" duration="3846000" />
+      <workItem from="1690854306416" duration="17424000" />
+      <workItem from="1690938238885" duration="10005000" />
+    </task>
+    <task id="LOCAL-00001" summary="add table class">
+      <created>1690938361123</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1690938361123</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add table class">
+      <created>1690938624178</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1690938624178</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add table class">
+      <created>1690940434337</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1690940434337</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="branch1" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add table class" />
+    <option name="LAST_COMMIT_MESSAGE" value="add table class" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/hrtalent$dimn_hwjl_score.coverage" NAME="dimn_hwjl_score Coverage Results" MODIFIED="1690874155458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/processes/layer1" />
+  </component>
+</project>

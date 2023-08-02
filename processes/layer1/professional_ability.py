@@ -15,7 +15,8 @@ def cal_professional_ability_score():
 
     #教育情况
     df_jiaoyu = pd.read_excel('seqdata\jiaoyubeijing.xlsx', dtype=str)
-
+    
+    # 是否985，是否211，是否作废，是否QS100，是否QS200
     df_gaoxiao = pd.read_excel('seqdata\高校数据库v5.xlsx', dtype=str)
 
     school_shuangyiliu = set([i.split('（')[0] for i in df_gaoxiao[df_gaoxiao['是否双一流'] == '是']['学校名称'].to_list()])
@@ -88,6 +89,7 @@ def cal_professional_ability_score():
     df_base[['员工号', '姓名', '一级机构', '二级机构', '中心', '岗位', '聘任职业技术等级']]
 
     #筛选出非高管和首席的员工
+    # bm_xldj，职称
     df_base = df_base[df_base['任职形式'] == '担任']
     df_base = df_base[df_base['中心'] != '高管']
     df_base = df_base[df_base['岗位'].apply(lambda x: '首席' not in x)]

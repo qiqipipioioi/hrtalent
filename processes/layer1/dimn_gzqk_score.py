@@ -64,10 +64,15 @@ def calculate_working_status_score(now_year):
 
 
     #员工统计
+    # 部门表：b01，'一级机构', '二级机构', '中心'
+    # e01，岗位
+    # bm_zwtx，职务
     df_base = pd.read_excel('seqdata\基本信息_20230620170630.xlsx', dtype=str)
     df_base = df_base[['员工号', '姓名', '一级机构', '二级机构', '中心', '岗位', '入行时间', '任现岗位时间','行员等级']]
-
+    
+    
     #筛选出非高管和首席的员工
+    # status，任职形式
     df_base = df_base[df_base['任职形式'] == '担任']
     df_base = df_base[df_base['中心'] != '高管']
     df_base = df_base[df_base['岗位'].apply(lambda x: '首席' not in x)]
@@ -81,7 +86,8 @@ def calculate_working_status_score(now_year):
 
     #考勤数据
     df_kaoqin = pd.read_excel('seqdata\月结果_20230627160707.xlsx', dtype=str)
-
+    
+    # k_month
     def cal_kaoqin_score(x):
         if x['事病假天数'] == 0:
             return 100
@@ -113,6 +119,7 @@ def calculate_working_status_score(now_year):
     df_kaohe_now = df_kaohe_now[df_kaohe_now['任职形式'] == '担任']
 
     #考核得分计算
+    # 
     def cal_kaohe_score(x):
         if x['考核情况'] == '优秀':
             return 100

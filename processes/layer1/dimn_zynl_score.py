@@ -13,6 +13,7 @@ import re
 
 def cal_ability_evaluation_score():
     #综合能力测评得分
+    # bm_starlevel,胜任力星级
     df_nengli = pd.read_excel('seqdata\综合能力测评_20230706091438.xlsx', dtype=str)
 
     df_nengli['综合能力得分'] = df_nengli['总分'].astype(float) / 8 * 100

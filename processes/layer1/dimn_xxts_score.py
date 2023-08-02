@@ -75,7 +75,11 @@ def cal_learning_growing_up_score():
 
 
     #在职教育得分
-
+    # bm_jylx，教育类型
+    # bmyh_xl,学历
+    # bmyh_xw,学位
+    # bm_sf0,是否最高
+    # 
     df_jiaoyu = pd.read_excel('seqdata\jiaoyubeijing.xlsx', dtype=str)
     df_gaoxiao = pd.read_excel('seqdata\高校数据库v5.xlsx', dtype=str)
     school_shuangyiliu = set([i.split('（')[0] for i in df_gaoxiao[df_gaoxiao['是否双一流'] == '是']['学校名称'].to_list()])

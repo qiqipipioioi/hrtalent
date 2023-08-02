@@ -9,11 +9,13 @@ import numpy as np
 import datetime
 import time
 import re
+from models.layer1_model import FamilyMember,PartTimeSubset,BaseInfo
 
 
-def cal_relation_score():
+def cal_relation_score(session):
 
     #家庭成员得分
+    # bm_gxcw, 与本人关系
     df_jiating = pd.read_excel('seqdata\jiatingchengyuan.xlsx', dtype=str)
 
     df_jiating_g = df_jiating[df_jiating.notnull().all(axis=1)].groupby('员工号').count()
@@ -34,6 +36,8 @@ def cal_relation_score():
 
 
     #社会兼职
+    # bm_gwstatus，任职形式
+    # 
     df_jianzhi = pd.read_excel('seqdata\社会兼职子集_20230706102550.xlsx', dtype=str)
     df_jianzhi_g = df_jianzhi.groupby('员工号').count()
     df_jianzhi_g.rename(columns={'姓名': '完整条数'}, inplace=True)

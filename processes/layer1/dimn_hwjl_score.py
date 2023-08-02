@@ -8,9 +8,9 @@ import pandas as pd
 import numpy as np
 import datetime
 import time
+from models.layer1_model import BaseInfo,WorkingExperience
 
-
-def calculate_in_bank_working_experience_score():
+def calculate_in_bank_working_experience_score(session):
     
     def cal_working_time(x):
         #计算行外工作时间
@@ -37,25 +37,41 @@ def calculate_in_bank_working_experience_score():
         return total_work_time * 10
 
 
-    df_base = pd.read_excel('seqdata\基本信息_20230620170630.xlsx', dtype=str)
-    df_base = df_base[['员工号', '姓名', '一级机构', '二级机构', '中心', '岗位', '入行时间', '任现岗位时间','行员等级']]
+    # df_base = pd.read_excel('seqdata\基本信息_20230620170630.xlsx', dtype=str)
+    df_base = pd.read_sql(session.query(BaseInfo).statement, session.bind)
+
+    # df_base = df_base[['员工号', '姓名', '一级机构', '二级机构', '中心', '岗位', '入行时间', '任现岗位时间','行员等级']]
+    df_base = df_base[
+        ['user_id', 'name', 'lv1_org', 'lv2_org', 'center', 'position', 'join_time', 'position_time', 'emp_lvl']
+    ]
 
     #筛选出非高管和首席的员工
-    df_base = df_base[df_base['任职形式'] == '担任']
-    df_base = df_base[df_base['中心'] != '高管']
-    df_base = df_base[df_base['岗位'].apply(lambda x: '首席' not in x)]
+    df_base = df_base[df_base['emp_lvl'] == '担任'] # TODO unclear
+    df_base = df_base[df_base['center'] != '高管']
+    df_base = df_base[df_base['position'].apply(lambda x: '首席' not in x)]
 
-    df_working = pd.read_excel('seqdata\工作经历子集_20230504133753.xlsx', dtype=str)
+    df_working = pd.read_sql(session.query(WorkingExperience).statement, session.bind)
 
-    df_working_merge_base = pd.merge(df_working, df_base[['员工号', '入行时间', '任现岗位时间']], on='员工号', how='left')
+    df_working_merge_base = pd.merge(df_working, df_base[['user_id', 'join_time', 'position_time']], on='user_id', how='left')
 
-    df_working_merge_base = df_working_merge_base[df_working_merge_base['终止时间'] < df_working_merge_base['入行时间']]
+    df_working_merge_base = df_working_merge_base[df_working_merge_base['end_time'] < df_working_merge_base['start_time']]
 
-    df_working_merge_base_g = df_working_merge_base.groupby('员工号').apply(cal_working_time)
-    df_working_merge_base_g.rename('过去工作经验得分',inplace=True)
+    df_working_merge_base_g = df_working_merge_base.groupby('user_id').apply(cal_working_time)
+    # df_working_merge_base_g.rename('过去工作经验得分',inplace=True)
+    df_working_merge_base_g.rename('pro_seq_years',inplace=True)
 
-    df_result = pd.merge(df_base[['员工号']], df_working_merge_base_g, on='员工号', how='left')
+    df_result = pd.merge(df_base[['user_id']], df_working_merge_base_g, on='user_id', how='left')
     df_result.fillna(0, inplace=True)
 
 
     return df_result
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+if __name__ == '__main__':
+    # test
+    engine = create_engine('mysql+pymysql://hruser:12345@110.40.154.26:3306/talents', echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    print(calculate_in_bank_working_experience_score(session=session))
