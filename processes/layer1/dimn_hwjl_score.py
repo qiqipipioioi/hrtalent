@@ -8,18 +8,22 @@ import pandas as pd
 import numpy as np
 import datetime
 import time
-from models.layer1_model import BaseInfo,WorkingExperience
+from models.layer1_model import A01,A866,E01
 
 def calculate_in_bank_working_experience_score(session):
-    
+    # 岗位编码
+    position_code = pd.read_sql(session.query(E01).statement, session.bind)
+
+    now_year=2023
+
     def cal_working_time(x):
         #计算行外工作时间
-        x['起始时间'] = pd.to_datetime(x['起始时间'])
-        x['终止时间'] = pd.to_datetime(x['终止时间'])
+        x['a8661'] = pd.to_datetime(x['a8661'])
+        x['a8662'] = pd.to_datetime(x['a8662'])
         merged_intervals = []
         for _, row in x.iterrows():
-            start_time = row['起始时间']
-            end_time = row['终止时间']
+            start_time = row['a8661']
+            end_time = row['a8662']
             print(start_time, end_time)
             mark = 0
             for i, interval in enumerate(merged_intervals):
@@ -37,41 +41,35 @@ def calculate_in_bank_working_experience_score(session):
         return total_work_time * 10
 
 
-    # df_base = pd.read_excel('seqdata\基本信息_20230620170630.xlsx', dtype=str)
-    df_base = pd.read_sql(session.query(BaseInfo).statement, session.bind)
-
-    # df_base = df_base[['员工号', '姓名', '一级机构', '二级机构', '中心', '岗位', '入行时间', '任现岗位时间','行员等级']]
-    df_base = df_base[
-        ['user_id', 'name', 'lv1_org', 'lv2_org', 'center', 'position', 'join_time', 'position_time', 'emp_lvl']
-    ]
+    df_base = pd.read_sql(session.query(A01).statement, session.bind)
+    df_base = df_base[['a0188', 'a0101', 'dept_1', 'dept_2', 'dept_code', 'e0101', 'a0141', 'a01145','a01686']]
 
     #筛选出非高管和首席的员工
-    df_base = df_base[df_base['emp_lvl'] == '担任'] # TODO unclear
-    df_base = df_base[df_base['center'] != '高管']
-    df_base = df_base[df_base['position'].apply(lambda x: '首席' not in x)]
+    # df_base = df_base[df_base['任职形式'] == '担任'] # TODO 任职形式字段不清楚
+    df_base = df_base[df_base['dept_code'] != position_code.loc[position_code['mc0000']=='高管','dept_code']]
+    df_base = df_base[df_base['e0101'].apply(lambda x: '首席' not in x)]
 
-    df_working = pd.read_sql(session.query(WorkingExperience).statement, session.bind)
+    df_working = pd.read_sql(session.query(A866).statement, session.bind)
 
-    df_working_merge_base = pd.merge(df_working, df_base[['user_id', 'join_time', 'position_time']], on='user_id', how='left')
+    df_working_merge_base = pd.merge(df_working, df_base[['a0188', 'a0141', 'a01145']], on='a0188', how='left')
 
-    df_working_merge_base = df_working_merge_base[df_working_merge_base['end_time'] < df_working_merge_base['start_time']]
+    df_working_merge_base = df_working_merge_base[df_working_merge_base['a8662'] < df_working_merge_base['a0141']]
 
-    df_working_merge_base_g = df_working_merge_base.groupby('user_id').apply(cal_working_time)
-    # df_working_merge_base_g.rename('过去工作经验得分',inplace=True)
-    df_working_merge_base_g.rename('pro_seq_years',inplace=True)
+    df_working_merge_base_g = df_working_merge_base.groupby('a0188').apply(cal_working_time)
+    df_working_merge_base_g.rename('过去工作经验得分',inplace=True)
 
-    df_result = pd.merge(df_base[['user_id']], df_working_merge_base_g, on='user_id', how='left')
+    def cal_hire_type_score(x):
+        years = now_year - x['a0141'].year
+        if x['a01679'] in ['熟练用工','人才引进']:
+            if years <= 1:
+                return 100
+            elif 1 <years<=2:
+                return 70
+            elif 2<years<=3:
+                return 40
+            else:
+                return 0
+    df_base['录用类型得分'] = df_base[['a0141','a01679']].apply(cal_hire_type_score,axis=1)
+    df_result = pd.merge(df_base[['a0188','录用类型得分']], df_working_merge_base_g, on='a0188', how='left')
     df_result.fillna(0, inplace=True)
-
-
     return df_result
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-if __name__ == '__main__':
-    # test
-    engine = create_engine('mysql+pymysql://hruser:12345@110.40.154.26:3306/talents', echo=True)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    print(calculate_in_bank_working_experience_score(session=session))

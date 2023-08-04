@@ -5,22 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c40c7a64-d942-4f0d-8f42-dd430750a9ef" name="Changes" comment="add table class">
-      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/layer1_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/layer1_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzcz_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzcz_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzlc_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzlc_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzqk_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzqk_score.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_xxts_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_xxts_score.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_zynl_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_zynl_score.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processes/layer1/professional_ability.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/professional_ability.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/relation_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/relation_score.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +56,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="exceleditor.install" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/Desktop/hrtalent" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -112,7 +103,7 @@
       <workItem from="1690767262876" duration="18830000" />
       <workItem from="1690850417001" duration="3846000" />
       <workItem from="1690854306416" duration="17424000" />
-      <workItem from="1690938238885" duration="10005000" />
+      <workItem from="1690938238885" duration="42694000" />
     </task>
     <task id="LOCAL-00001" summary="add table class">
       <created>1690938361123</created>
@@ -135,11 +126,29 @@
       <option name="project" value="LOCAL" />
       <updated>1690940434337</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add table class">
+      <created>1690963349118</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1690963349118</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
