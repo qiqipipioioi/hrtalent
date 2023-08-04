@@ -5,13 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c40c7a64-d942-4f0d-8f42-dd430750a9ef" name="Changes" comment="add table class">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cal_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/cal_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/layer1_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/layer1_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzcz_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzcz_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzlc_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzlc_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_gzqk_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_gzqk_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_hwjl_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_rybz_score.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_wgcc_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_xxts_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_xxts_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/dimn_zynl_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/dimn_zynl_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processes/layer1/professional_ability.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/professional_ability.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processes/layer1/relation_score.py" beforeDir="false" afterPath="$PROJECT_DIR$/processes/layer1/relation_score.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +109,7 @@
       <workItem from="1690767262876" duration="18830000" />
       <workItem from="1690850417001" duration="3846000" />
       <workItem from="1690854306416" duration="17424000" />
-      <workItem from="1690938238885" duration="42694000" />
+      <workItem from="1690938238885" duration="42781000" />
     </task>
     <task id="LOCAL-00001" summary="add table class">
       <created>1690938361123</created>
