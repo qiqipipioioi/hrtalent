@@ -23,6 +23,7 @@
             "绩效考核成长": "base_jxcz",
             "工作立体评估成长": "base_pgcz",
             "过去工作经验": "base_gqgz",
+            "录用类型": "base_lylx",
             "参与行外活动情况": "base_hwhd",
             "全员轮训情况": "base_qylx",
             "内训师资格": "base_nxzg",
@@ -67,7 +68,8 @@
             "工作成长": "dimn_gzcz",
             "行外经历": "dimn_hwjl",
             "学习提升": "dimn_xxts",
-            "关系拓扑": "dimn_gxtp"
+            "关系拓扑": "dimn_gxtp",
+            "综合评测": "dimn_zhpc"
     },
     "专业序列": {
             "综合评分": "seqc_zhpf",

@@ -8,13 +8,9 @@ import pandas as pd
 import numpy as np
 import datetime
 import time
-from models.layer1_model import A01,A866,E01
 
-def calculate_in_bank_working_experience_score(session):
-    # 岗位编码
-    position_code = pd.read_sql(session.query(E01).statement, session.bind)
-
-    now_year=2023
+def cal_hwjl_score(now_year, df_base, df_working):
+    now_year=int(now_year)
 
     def cal_working_time(x):
         #计算行外工作时间
@@ -41,16 +37,6 @@ def calculate_in_bank_working_experience_score(session):
         return total_work_time * 10
 
 
-    df_base = pd.read_sql(session.query(A01).statement, session.bind)
-    df_base = df_base[['a0188', 'a0101', 'dept_1', 'dept_2', 'dept_code', 'e0101', 'a0141', 'a01145','a01686']]
-
-    #筛选出非高管和首席的员工
-    # df_base = df_base[df_base['任职形式'] == '担任'] # TODO 任职形式字段不清楚
-    df_base = df_base[df_base['dept_code'] != position_code.loc[position_code['mc0000']=='高管','dept_code']]
-    df_base = df_base[df_base['e0101'].apply(lambda x: '首席' not in x)]
-
-    df_working = pd.read_sql(session.query(A866).statement, session.bind)
-
     df_working_merge_base = pd.merge(df_working, df_base[['a0188', 'a0141', 'a01145']], on='a0188', how='left')
 
     df_working_merge_base = df_working_merge_base[df_working_merge_base['a8662'] < df_working_merge_base['a0141']]
@@ -60,16 +46,29 @@ def calculate_in_bank_working_experience_score(session):
 
     def cal_hire_type_score(x):
         years = now_year - x['a0141'].year
+        past_work_year = x['过去工作经验得分'] / 10
+        if past_work_year > 10:
+            past_work_year = 10
+        coe = past_work_year / 10 * 0.5 + 1
+        base_score = 0
         if x['a01679'] in ['熟练用工','人才引进']:
             if years <= 1:
-                return 100
+                base_score = 100
             elif 1 <years<=2:
-                return 70
+                base_score = 70
             elif 2<years<=3:
-                return 40
+                base_score = 40
             else:
-                return 0
-    df_base['录用类型得分'] = df_base[['a0141','a01679']].apply(cal_hire_type_score,axis=1)
-    df_result = pd.merge(df_base[['a0188','录用类型得分']], df_working_merge_base_g, on='a0188', how='left')
+                base_score = 0
+        else:
+            base_score = 0
+        return base_score * coe
+
+    df_result = pd.merge(df_base[['a0188','a01679', 'a0141']], df_working_merge_base_g, on='a0188', how='left')
+    df_result['base_lylx_score'] = df_result.apply(cal_hire_type_score, axis=1)
+    df_result.rename(columns={'过去工作经验得分': 'base_gqgz_score'}, inplace=True)
     df_result.fillna(0, inplace=True)
+
+    df_result = df_result[['a0188', 'base_lylx_score', 'base_gqgz_score']]
+
     return df_result

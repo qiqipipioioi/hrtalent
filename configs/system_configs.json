@@ -1,0 +1,9 @@
+{
+    "mysql_config":{
+        "host": "123.60.101.68",
+        "port": 3306,
+        "user": "test",
+        "password": "Aa1234!@#$",
+        "db_name": "test_database"
+    }
+}

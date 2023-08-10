@@ -26,6 +26,7 @@ class A01(Base):
     e0101 = Column(VARCHAR(10), nullable=True)  # 岗位
     a01687 = Column(VARCHAR(20),nullable=True) # 聘任职业技术等级
     a01679 = Column(VARCHAR(20), nullable=True) # 录用类型
+    
 
     def __repr__(self):
         return f"<A01(a0190='{self.a0190}',a0101='{self.a0101}',dept_1='{self.dept_1}',dept_2='{self.dept_2}',dept_code='{self.dept_code}'" \
@@ -37,6 +38,7 @@ class A04(Base):
     # 教育背景子集
     __tablename__ = 'a04'
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # recordid
+    a0188 = Column(INTEGER, nullable=False, index=True)  # 员工号，姓名
     a0447 = Column(VARCHAR(20), nullable=False)  # 教育类型
     endtime = Column(DATETIME(8), nullable=False)  # 终止时间
     a0431 = Column(VARCHAR(200), nullable=False)  # 学校
@@ -47,7 +49,7 @@ class A04(Base):
     fj3 = Column(VARCHAR(1000), nullable=True)  # 学信网在线验证报告
 
     def __repr__(self):
-        return f"<A04(a0447='{self.a0447}',endtime='{self.endtime}',a0431='{self.a0431}',a0429='{self.a0429}',a0440='{self.a0440}',fjo='{self.fjo}',fjt='{self.fjt}',fj3='{self.fj3}')>"
+        return f"<A04(a0447='{self.a0447}',a0188='{self.a0188}',endtime='{self.endtime}',a0431='{self.a0431}',a0429='{self.a0429}',a0440='{self.a0440}',fjo='{self.fjo}',fjt='{self.fjt}',fj3='{self.fj3}')>"
 
 
 class A8145(Base):
@@ -90,10 +92,11 @@ class A832(Base):
     # 职业证书子集
     __tablename__ = 'a832'
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
+    a0188 = Column(INTEGER, nullable=False, index=True)  # 员工号，姓名
     a83211 = Column(VARCHAR(100), nullable=False)  # 证书名称
 
     def __repr__(self):
-        return f"<A832(a83211='{self.a83211}')>"
+        return f"<A832(a0188='{self.a0188}',a83211='{self.a83211}')>"
 
 
 class A864(Base):
@@ -125,9 +128,13 @@ class A866(Base):
     a0188 = Column(INTEGER, nullable=False)  # 姓名
     a8661 = Column(DATETIME(8), nullable=False)  # 起始时间
     a8662 = Column(DATETIME(8), nullable=True)  # 终止时间
+    a8663 = Column(VARCHAR(200), nullable=True)  # 工作单位
+    dept_code = Column(VARCHAR(200), nullable=True)  # 工作部门
+    a8664 = Column(VARCHAR(200), nullable=True)  # 工作岗位
 
     def __repr__(self):
-        return f"<A866(a0188='{self.a0188}',a8661='{self.a8661}',a8662='{self.a8662}')>"
+        return f"<A866(a0188='{self.a0188}',a8661='{self.a8661}',a8662='{self.a8662}', a8663='{self.a8663}', \
+            dept_code='{self.dept_code}', a8664='{self.a8664}')>"
 
 
 class A875(Base):
@@ -191,12 +198,12 @@ class Empat19(Base):
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
     a0188 = Column(INTEGER, nullable=False)  # 姓名
     years = Column(VARCHAR(4), nullable=True)  # 年度
-    bixiuke = Column(VARCHAR(200),nullable=True) # 必修课
-    gongkaike = Column(VARCHAR(200),nullable=True) # 公开课
+    ReqCourses = Column(VARCHAR(20),nullable=True) # 必修课
+    OpenCourses = Column(VARCHAR(20),nullable=True) # 公开课
 
     def __repr__(self):
-        return f"<Empat19(a0188='{self.a0188}', years='{self.years}', bixiuke='{self.bixiuke}', " \
-               f"gongkaike = '{self.gongkaike}')>"
+        return f"<Empat19(a0188='{self.a0188}', years='{self.years}', bixiuke='{self.ReqCourses}', " \
+               f"gongkaike = '{self.OpenCourses}')>"
 
 class Gxlygydjx(Base):
     # 龙虎榜排名，各序列员工月度绩效
@@ -213,19 +220,34 @@ class Gxlygydjx(Base):
 class K_month(Base):
     # 月结果
     __tablename__ = 'k_month'
-    recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
+    k_id = Column(INTEGER, primary_key=True, autoincrement=True)  # record id
+    a0188 = Column(INTEGER, nullable=False)  # uid
     gz_ym = Column(VARCHAR(6), nullable=False)  # 年月
     leave_time_11 = Column(NUMERIC(19, 2), nullable=True)  # 事假天数
     leave_time_12 = Column(NUMERIC(19, 2), nullable=True)  # 病假天数
 
     def __repr__(self):
-        return f"<K_month(gz_ym='{self.gz_ym}',leave_time_11='{self.leave_time_11}',leave_time_12='{self.leave_time_12}')>"
+        return f"<K_month(a0188='{self.a0188}',gz_ym='{self.gz_ym}',leave_time_11='{self.leave_time_11}',leave_time_12='{self.leave_time_12}')>"
 
+
+class ZYXLJFB(Base):
+    #职业证书
+    __tablename__ = 'zyxljfb'
+    xh = Column(INTEGER, primary_key=True, autoincrement=True)  # record id
+    mc = Column(VARCHAR(20), nullable=False)  # 证书名称
+    type = Column(VARCHAR(100), nullable=False)  # 证书类型
+    grade = Column(VARCHAR(50), nullable=False)  # 证书等级
+    fz = Column(NUMERIC, nullable=False)  # 分值
+
+    def __repr__(self):
+        return f"<ZYXLJFB(MC='{self.mc}',Type='{self.type}',Grade='{self.grade}',FZ='{self.fz}')>"
+    
 
 class Tability(Base):
     # 综合能力测评
     __tablename__ = 'tability'
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
+    a0188 = Column(INTEGER, nullable=False)  # uid
     totalscore = Column(DECIMAL(4, 2), nullable=False)  # 总分
 
     def __repr__(self):
@@ -236,6 +258,7 @@ class Tpersonality(Base):
     # 性格测评
     __tablename__ = 'tpersonality'
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
+    a0188 = Column(INTEGER, nullable=False)  # uid
     dominance = Column(INTEGER, nullable=False)  # 支配型
     influence = Column(INTEGER, nullable=False)  # 影响型
     steadiness = Column(INTEGER, nullable=False)  # 支持型
@@ -260,14 +283,12 @@ class A8187(Base):
     a81875 = Column(NUMERIC(19,2),nullable=True) #回复量
     a81876 = Column(NUMERIC(19,2),nullable=True) #转发量
     a81877 = Column(NUMERIC(19,2),nullable=True) #互动总量
-    a81878 = Column(NUMERIC(19,2),nullable=True) #总字数
-    a81879 = Column(VARCHAR(20),nullable=True) #上榜次数
     opname = Column(VARCHAR(100),nullable=True) #操作者
     opdate = Column(DATETIME(8),nullable=True) #操作时间
-    signed = Column(SMALLINT(2),nullable=True) #审批标记
+    signed = Column(SMALLINT,nullable=True) #审批标记
 
     def __repr__(self):
-        return f"<A8187(recordid='{self.recordid}',a_id='{self.a_id}',infochgfbid='{self.infochgfbid}',a0188='{self.a0188}',gz_ym='{self.gz_ym}',a81871='{self.a81871}',dept_code='{self.dept_code}',a81872='{self.a81872}',a81873='{self.a81873}',a81874='{self.a81874}',a81875='{self.a81875}',a81876='{self.a81876}',a81877='{self.a81877}',a81878='{self.a81878}',a81879='{self.a81879}',opname='{self.opname}',opdate='{self.opdate}',signed='{self.signed}')>"
+        return f"<A8187(recordid='{self.recordid}',a_id='{self.a_id}',infochgfbid='{self.infochgfbid}',a0188='{self.a0188}',gz_ym='{self.gz_ym}',a81871='{self.a81871}',dept_code='{self.dept_code}',a81872='{self.a81872}',a81873='{self.a81873}',a81874='{self.a81874}',a81875='{self.a81875}',a81876='{self.a81876}',a81877='{self.a81877}',opname='{self.opname}',opdate='{self.opdate}',signed='{self.signed}')>"
 
 class A8196(Base):
     # 项目活动子集
@@ -285,7 +306,7 @@ class A8196(Base):
     a81967 = Column(VARCHAR(1000),nullable=True) #项目/活动描述
     a81968 = Column(VARCHAR(500),nullable=True) #项目/活动负责人
     a81969 = Column(VARCHAR(500),nullable=True) #项目/活动照片
-    signed = Column(SMALLINT(2),nullable=True) #审批标记
+    signed = Column(SMALLINT,nullable=True) #审批标记
     opname = Column(VARCHAR(100),nullable=True) #操作者
     opdate = Column(DATETIME(8),nullable=True) #操作时间
 
@@ -304,7 +325,7 @@ class Kol(Base):
     jf = Column(NUMERIC(19,2),nullable=True) #积分
     opname = Column(VARCHAR(100),nullable=True) #操作者
     opdate = Column(DATETIME(8),nullable=True) #操作时间
-    signed = Column(SMALLINT(2),nullable=True) #审批标记
+    signed = Column(SMALLINT,nullable=True) #审批标记
 
     def __repr__(self):
         return f"<Kol(recordid='{self.recordid}',a_id='{self.a_id}',infochgfbid='{self.infochgfbid}',a0190='{self.a0190}',a0188='{self.a0188}',gz_ym='{self.gz_ym}',jf='{self.jf}',opname='{self.opname}',opdate='{self.opdate}',signed='{self.signed}')>"
@@ -442,3 +463,27 @@ class E01(Base):
 
     def __repr__(self):
         return f"<E01(e0101='{self.e0101}',dept_code='{self.dept_code}',bm0000='{self.bm0000}',mc0000='{self.mc0000}')>"
+
+
+class EmployeeProfessionalSequenceModel(Base):
+    #员工专业序列表
+    __tablename__ = 'employeeProfessionalSequence'
+    uid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)       #唯一标识
+    a0188 = Column(INTEGER, nullable=False)    #可重复
+    user_id = Column(String(10), index=True)                       #工号
+    name = Column(String(10), index=True)                          #姓名
+    lvl1_org = Column(String(20), nullable=True)                                   #一级机构
+    lvl2_org = Column(String(20), nullable=True)                                   #二级机构
+    center = Column(String(20), nullable=True)                                    #中心
+    position = Column(String(20), nullable=True)                                  #岗位
+    duty = Column(String(20), nullable=True)                                      #职务
+    lvl1_professional_sequence = Column(String(20), nullable=True)                #一级序列
+    lvl2_professional_sequence = Column(String(20), nullable=True)                #二级序列
+    update_datetime = Column(DateTime)                             #更新时间
+
+    def __repr__(self):
+        return f"<employee_professional_sequence(uid='{self.a0188}',user_id='{self.user_id}', name={self.name}, \
+            lv1_org={self.lvl1_org}, lv2_org={self.lvl2_org}, center={self.center}, \
+            position={self.position}, duty={self.duty}, lvl1_professional_sequence={self.lvl1_professional_sequence}, \
+            lvl2_professional_sequence={self.lvl2_professional_sequence}, update_datetime={self.update_datetime})>"
+    

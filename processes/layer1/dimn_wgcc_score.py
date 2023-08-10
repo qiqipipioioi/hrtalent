@@ -5,21 +5,12 @@
 # coding: utf-8
 
 import pandas as pd
-import numpy as np
-import datetime
-import time
 import re
-from models.layer1_model import A01,A8145,A8192,E01
 
 
-def cal_punish_score(now_year,session):
+def cal_wgcc_score(now_year, df_weigui, df_base, df_chengchu):
 
     now_year = int(now_year)
-
-    # 岗位编码
-    position_code = pd.read_sql(session.query(E01).statement, session.bind)
-
-    df_weigui = pd.read_sql(session.query(A8145).statement, session.bind)
 
     #当年违规惩处积分
     df_weigui_now = df_weigui[df_weigui['a81452'].apply(lambda x: x.year == str(now_year))]
@@ -46,7 +37,7 @@ def cal_punish_score(now_year,session):
             return 0
 
 
-    df_weigui_now_group['当年违规惩处扣分'] = df_weigui_now_group['a81453'].apply(cal_weigui_score_now)
+    df_weigui_now_group['当年违规行为扣分'] = df_weigui_now_group['a81453'].apply(cal_weigui_score_now)
 
 
     #过去违规惩处扣分
@@ -96,26 +87,15 @@ def cal_punish_score(now_year,session):
 
     df_weigui_past_group = df_weigui_past[['a0188', 'a81452', 'a81453']].groupby(['a0188']).apply(lambda x: cal_weigui_past_score(x.values.tolist(), now_year))
 
-    df_weigui_past_group.rename('累计违规扣分',inplace=True)
+    df_weigui_past_group.rename('累计违规行为扣分',inplace=True)
 
-    #员工统计
-    df_base = pd.read_sql(session.query(A01).statement, session.bind)
-    df_base[['a0188', 'a0101', 'dept_1', 'dept_2', 'dept_code', 'e0101', 'a0141', 'a01145','a01686']]
 
-    #筛选出非高管和首席的员工
-    # df_base = df_base[df_base['任职形式'] == '担任'] # TODO 没有任职形式字段
-    df_base = df_base[df_base['dept_code'] != position_code.loc[position_code['mc0000']=='高管','dept_code']]
-    df_base = df_base[df_base['e0101'].apply(lambda x: '首席' not in x)]
-
-    df_result = pd.merge(df_base[['a0188', 'a0101']], df_weigui_now_group[['a0188', '当年违规惩处扣分']], how='left')
+    df_result = pd.merge(df_base[['a0188', 'a0101']], df_weigui_now_group[['a0188', '当年违规行为扣分']], how='left')
     df_result = pd.merge(df_result, df_weigui_past_group, on='a0188', how='left')
 
     df_result.fillna(0, inplace=True)
 
     #违规惩处数据
-    df_chengchu = pd.read_sql(session.query(A8192).statement, session.bind)
-
-
     def cal_single_chengchu_score(x):
         score = 0
         if re.search('降级|察看|撤职|开除|降职|解除劳动合同|解聘', x):
@@ -137,8 +117,8 @@ def cal_punish_score(now_year,session):
 
     #当年惩处
     df_chengchu_now = df_chengchu[df_chengchu['a81921'].astype(int) == now_year]
-    df_chengchu_now_g = df_chengchu_now[['a0101', '单一惩处扣分']].groupby('a0101').sum()
-    df_chengchu_now_g.rename(columns = {'单一惩处扣分': '当年违规惩处扣分'}, inplace=True)
+    df_chengchu_now_g = df_chengchu_now[['a0188', '单一惩处扣分']].groupby('a0188').sum()
+    df_chengchu_now_g.rename(columns = {'单一惩处扣分': '当年纪律处分扣分'}, inplace=True)
 
 
     def cal_chengchu_score(x, now_year):
@@ -166,27 +146,18 @@ def cal_punish_score(now_year,session):
 
     #往年惩处扣分
     df_chengchu_past = df_chengchu[df_chengchu['a81921'].astype(int) < now_year]
-    df_chengchu_past_g = df_chengchu_past[['a0101', 'a81921', '单一惩处扣分']].groupby('a0101').apply(lambda x: cal_chengchu_score(x.values.tolist(), now_year))
-    df_chengchu_past_g.rename('过去违规惩处扣分', inplace=True)
+    df_chengchu_past_g = df_chengchu_past[['a0188', 'a81921', '单一惩处扣分']].groupby('a0188').apply(lambda x: cal_chengchu_score(x.values.tolist(), now_year))
+    df_chengchu_past_g.rename('过去纪律处分扣分', inplace=True)
 
 
-    df_names1 = pd.merge(df_chengchu_now_g, df_result, on='a0101', how='left', indicator=True)
-    df_names1 = df_names1[df_names1['_merge'] == 'both']
-    du_names1 = set(df_names1[df_names1['a0101'].duplicated()]['a0101'].values.tolist())
-    df_names2 = pd.merge(df_chengchu_past_g, df_result, on='a0101', how='left', indicator=True)
-    df_names2 = df_names2[df_names2['_merge'] == 'both']
-    du_names2 = set(df_names2[df_names2['a0101'].duplicated()]['a0101'].values.tolist())
-    du_names = du_names1 and du_names2
-
-    df_result = pd.merge(df_result,df_chengchu_now_g, on='a0101', how='left')
-    df_result = pd.merge(df_result, df_chengchu_past_g, on='a0101', how='left')
+    df_result = pd.merge(df_result,df_chengchu_now_g, on='a0188', how='left')
+    df_result = pd.merge(df_result, df_chengchu_past_g, on='a0188', how='left')
 
     df_result.fillna(0, inplace=True)
 
+    df_result.rename(columns={'当年违规行为扣分': 'base_dnwg_score', '过去违规行为扣分': 'base_gqwg_score',\
+                              '当年纪律处分扣分': 'base_dncf_score', '过去纪律处分扣分': 'base_gqcf_score'}, inplace=True)
 
-    df_result[df_result['a0101'].apply(lambda x: x in du_names)]['当年违规惩处扣分'] = 0
-    df_result[df_result['a0101'].apply(lambda x: x in du_names)]['过去违规惩处扣分'] = 0
-    df_result = df_result.drop('a0101', axis=1)
-
+    df_result = df_result[['a0188', 'base_dnwg_score', 'base_gqwg_score', 'base_dncf_score', 'base_gqcf_score']]
 
     return df_result

@@ -5,7 +5,16 @@
 import pandas as pd
 import numpy as np
 import json 
+from urllib.parse import quote_plus as urlquote
+from loguru import logger
+import os
 
+
+
+def init_log():
+    logger.add(os.path.expanduser("~/Desktop/hrlog.log"))
+    hrlog = logger.bind(name="hrlog")
+    return hrlog
 
 def read_lang():
     #读取语义模版
@@ -40,10 +49,23 @@ def read_relations():
     lang_base_mapping = label_relations['语义标签-基础标签映射']
     dimn_lang_mapping = label_relations['维度标签-语义标签映射']
     #转化为英文字段
-    lang_base_mapping = {lang_label_names[k]: [base_label_names[i] for i in v] for k, v in lang_base_mapping.items()}
-    dimn_lang_mapping = {dimn_label_names[k]: [lang_label_names[i] for i in v] for k, v in dimn_lang_mapping.items()}
+    lang_base_mapping = {lang_label_dict[k]: [base_label_dict[i] for i in v] for k, v in lang_base_mapping.items()}
+    dimn_lang_mapping = {dimn_label_dict[k]: [lang_label_dict[i] for i in v] for k, v in dimn_lang_mapping.items()}
 
     return lang_base_mapping, dimn_lang_mapping, base_label_dict, lang_label_dict, dimn_label_dict, seqc_label_dict, base_with_sec_label_dict
+
+
+def read_mysql_configs():
+    #读取mysql配置
+    mysql_configs = json.load(open('config/system_configs.json', 'r', encoding='utf-8'))['mysql_config']
+    user = mysql_configs['user']
+    password = mysql_configs['password']
+    host = mysql_configs['host']
+    port = mysql_configs['port']
+    db_name = mysql_configs['db_name']
+    mysql_info = f'mysql+pymysql://{user}:{urlquote(password)}@{host}:{port}/{db_name}?charset=utf8'
+    return mysql_info
+
 
 if __name__ == '__main__':
     lang_base_mapping, dimn_lang_mapping, base_label_names, lang_label_names, dimn_label_names, seqc_label_names = read_relations()

@@ -5,18 +5,10 @@
 # coding: utf-8
 
 import pandas as pd
-import numpy as np
-import datetime
-import time
-from models.layer1_model import A01,A815,E01
 
-def cal_honor_score(now_year,session):
+
+def cal_rybz_score(now_year, df_honor, df_base):
     now_year = int(now_year)
-
-    # 岗位编码
-    position_code = pd.read_sql(session.query(E01).statement, session.bind)
-
-    df_honor = pd.read_sql(session.query(A815).statement, session.bind)
 
     #行内奖励
     df_honor_past_in = df_honor[df_honor['a81531'] == '总行级']
@@ -172,7 +164,6 @@ def cal_honor_score(now_year,session):
                 if p[0] == '国家级':
                     cum_guojia_years += 1
                     last_guojia_y = p[1]
-
             else:
                 last_pair[0].append(year_map([p[0], now_year - int(p[1])]))
                 last_pair[1] += base_map(p[0])
@@ -230,29 +221,17 @@ def cal_honor_score(now_year,session):
     df_honor_now_out_group = df_honor_now_out[['a0188', 'a81531']].groupby(['a0188']).apply(lambda x: cal_now_out_honor_score(x['a81531'].to_list()))
     df_honor_now_out_group.rename('当年行外表彰得分',inplace=True)
 
-
-    #员工统计
-    df_base = pd.read_sql(session.query(A01).statement, session.bind)
-    df_base[['a0188', 'a0101', 'dept_1', 'dept_2', 'dept_code', 'e0101', 'a0141', 'a01145','a01686']]
-
-    #筛选出非高管和首席的员工
-    df_base = df_base[df_base['任职形式'] == '担任']
-    df_base = df_base[df_base['dept_code'] != position_code.loc[position_code['mc0000']=='高管','dept_code']]
-    df_base = df_base[df_base['e0101'].apply(lambda x: '首席' not in x)]
-
-
     df_result = pd.merge(df_base[['a0188']], df_honor_past_in_group, on='a0188', how='left')
     df_result = pd.merge(df_result, df_honor_past_out_group, on='a0188', how='left')
     df_result = pd.merge(df_result, df_honor_now_in_group, on='a0188', how='left')
     df_result = pd.merge(df_result, df_honor_now_out_group, on='a0188', how='left')
     df_result.fillna(0, inplace=True)
-    df_result['在行累积工作荣誉得分'] = df_result['过往行内表彰得分'] * 0.5 + df_result['过往行内表彰得分'] * 0.5
-    df_result['当年工作荣誉得分'] = df_result['当年行内表彰得分'] * 0.5 + df_result['当年行内表彰得分'] * 0.5
+    df_result['base_ljry_score'] = df_result['过往行内表彰得分'] * 0.5 + df_result['过往行内表彰得分'] * 0.5
+    df_result['base_dnry_score'] = df_result['当年行内表彰得分'] * 0.5 + df_result['当年行内表彰得分'] * 0.5
 
+    df_result = df_result[['a0188', 'base_ljry_score', 'base_dnry_score']]
 
     return df_result
-
-
 
 
 

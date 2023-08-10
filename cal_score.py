@@ -9,22 +9,31 @@ import json
 import hashlib
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from processes.layer1.ability_evaluation import cal_ability_evaluation_score
-from processes.layer1.honor import cal_honor_score
-from processes.layer1.in_bank_working_experience import calculate_in_bank_working_experience_score
-from processes.layer1.learning_growing_up import cal_learning_growing_up_score
-from processes.layer1.out_bank_working_experience import calculate_in_bank_working_experience_score
-from processes.layer1.professional_ability import cal_professional_ability_score
-from processes.layer1.punish import cal_punish_score
-from processes.layer1.relation_score import cal_relation_score
-from processes.layer1.working_growing_up import cal_working_growing_up_score
-from processes.layer1.working_status import calculate_working_status_score
-from utils.read_configs import read_relations, read_ranges
-from models.layer1_model import ProfessionalSequenceLabelWeightsModel, EmployeeProfessionalSequenceModel
+from processes.layer1.dimn_gxtp_score import cal_gxtp_score
+from processes.layer1.dimn_gzcz_score import cal_gzcz_score
+from processes.layer1.dimn_gzlc_score import cal_gzlc_score
+from processes.layer1.dimn_gzqk_score import cal_gzqk_score
+from processes.layer1.dimn_hwjl_score import cal_hwjl_score
+from processes.layer1.dimn_rybz_score import cal_rybz_score
+from processes.layer1.dimn_wgcc_score import cal_wgcc_score
+from processes.layer1.dimn_xxts_score import cal_xxts_score
+from processes.layer1.dimn_zhpc_score import cal_zhpc_score
+from processes.layer1.dimn_zynl_score import cal_zynl_score
+# from processes.layer1.dimn_gzlc_score import calculate_in_bank_working_experience_score
+# from processes.layer1.dimn_xxts_score import cal_learning_growing_up_score
+# from processes.layer1.dimn_hwjl_score import calculate_in_bank_working_experience_score
+# from processes.layer1.dimn_zynl_score import cal_professional_ability_score
+# from processes.layer1.dimn_wgcc_score import cal_punish_score
+# from processes.layer1.dimn_gxtp_score import cal_relation_score
+# from processes.layer1.dimn_gzcz_score import cal_working_growing_up_score
+# from processes.layer1.dimn_gzqk_score import calculate_working_status_score
+from utils.read_configs import read_relations, read_ranges, read_mysql_configs, init_log
+from models.layer1_model import *
 from models.layer2_model import EmployeeBaseScoreModel
 
 #建立mysql链接
-engine = create_engine('', echo=True)
+mysql_info = read_mysql_configs()
+engine = create_engine(mysql_info, echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -32,21 +41,115 @@ session = Session()
 LANG_BASE_DICT, DIMN_LANG_DICT, BASE_DICT, LANG_DICT, DIMN_DICT, SEQC_DICT, BASE_WITH_SEC_LABEL_DICT = read_relations()
 COMMON_LEVEL_RANGE, SEQC1_LEVEL_RANGE, SEQC2_LEVEL_RANGE = read_ranges()
 
+hrlog = init_log()
 
 
-def get_common_score():
+def get_source_data():
+    hrlog.info("1.1 开始读取数据")
+    now_year = '2022'
+    #0.员工基本信息数据
+    df_base = pd.read_sql(session.query(A01).statement, session.bind)
+    df_dept = pd.read_sql(session.query(B01).statement, session.bind)
+    df_base = df_base[df_base['dept_code'] != df_dept.loc[df_dept['content']=='高管','dept_code'].values[0]]
+    df_base = df_base[df_base['e0101'].apply(lambda x: '首席' not in x if x else True)]
+    hrlog.info("1.1 数据读取: 员工基本信息读取完成")
+    #1.读取关系拓扑数据
+    #家庭数据
+    df_jiating = pd.read_sql(session.query(A864).statement, session.bind)
+    hrlog.info("1.1 数据读取: 家庭成员读取完成")
+    #社会兼职
+    df_jianzhi = pd.read_sql(session.query(A865).statement, session.bind)
+    hrlog.info("1.1 数据读取: 社会兼职读取完成")
+    #2.读取工作成长数据
+    #年度考核数据
+    df_kaohe = pd.read_sql(session.query(A875).statement, session.bind)
+    #龙虎榜数据
+    df_longhu = pd.read_sql(session.query(Gxlygydjx).statement, session.bind)
+    df_xulie = pd.read_sql(session.query(EmployeeProfessionalSequenceModel).statement, session.bind)
+    hrlog.info("1.1 数据读取: 工作成长数据读取完成")
+    #3.读取工作经历数据
+    #工作经历数据
+    df_working = pd.read_sql(session.query(A866).statement, session.bind)
+    hrlog.info("1.1 数据读取: 工作经历数据读取完成")
+    #4.读取工作情况数据
+    #KOL
+    df_kol = pd.read_sql(session.query(Kol).statement,session.bind)
+    #工作日志
+    df_journal = pd.read_sql(session.query(A8187).statement,session.bind)
+    #考勤
+    df_kaoqin = pd.read_sql(session.query(K_month).statement, session.bind)
+    #考核
+    df_kaohe = pd.read_sql(session.query(A875).statement, session.bind)
+    #龙虎榜
+    df_longhu = pd.read_sql(session.query(Gxlygydjx).statement, session.bind)
+    hrlog.info("1.1 数据读取: 工作情况数据读取完成")
+    #5.读取行外经历数据
+    #6.读取荣誉表彰数据
+    df_honor = pd.read_sql(session.query(A815).statement, session.bind)
+    hrlog.info("1.1 数据读取: 荣誉表彰数据读取完成")
+    #7.读取违规处分数据
+    df_weigui = pd.read_sql(session.query(A8145).statement, session.bind)
+    df_chengchu = pd.read_sql(session.query(A8192).statement, session.bind)
+    hrlog.info("1.1 数据读取: 违规处分数据读取完成")
+    #8.读取学习提升数据
+    #教育类型码表
+    df_code_education_type = pd.read_sql(session.query(Bm_jylx).statement, session.bind)
+    #是否最高码表
+    df_code_is_or_not = pd.read_sql(session.query(Bm_sf0).statement, session.bind)
+    #学历编码
+    df_code_xueli = pd.read_sql(session.query(Bmyh_xl).statement, session.bind)
+    #学位编码
+    df_code_xuewei = pd.read_sql(session.query(Bmyh_xw).statement, session.bind)
+    #内训师数据
+    df_peixun = pd.read_sql(session.query(Empat17).statement, session.bind)
+    #学习平台数据
+    df_pingtai = pd.read_sql(session.query(Empat18).statement, session.bind)
+    #全员轮训数据
+    df_lunxun = pd.read_sql(session.query(Empat19).statement,session.bind)
+    #教育数据
+    df_jiaoyu = pd.read_sql(session.query(A04).statement, session.bind)
+    #高校数据
+    df_gaoxiao = pd.read_sql(session.query(Bm_gxsjb).statement, session.bind)
+    hrlog.info("1.1 数据读取: 学习提升数据读取完成")
+    #9.读取综合评测数据
+    df_nengli = pd.read_sql(session.query(Tability).statement, session.bind) 
+    df_xingge = pd.read_sql(session.query(Tpersonality).statement, session.bind)
+    hrlog.info("1.1 数据读取: 综合评测数据读取完成")
+    #10.读取专业能力数据
+    df_zhengshu = pd.read_sql(session.query(A832).statement, session.bind)
+    df_zhengshu_score = pd.read_sql(session.query(ZYXLJFB).statement, session.bind)
+    hrlog.info("1.1 数据读取: 专业能力数据读取完成")
+    hrlog.info("1.1 数据读取完成")
+
+    
+
+
+
+
+
+
+
+
+
+def get_common_score(now_year, df_base, df_jiating, df_jianzhi, df_kaohe, df_longhu, df_xulie,\
+                    df_working, df_kol, df_journal, df_kaoqin, df_honor, df_weigui, df_chengchu,\
+                    df_code_education_type, df_code_is_or_not, df_code_xueli, df_code_xuewei, df_peixun,\
+                    df_pingtai, df_lunxun, df_jiaoyu, df_gaoxiao, df_nengli, df_xingge, df_zhengshu, df_zhengshu_score):
     #计算宽表
     #计算各个指标得分
-    df_ability_evaluation_score = cal_ability_evaluation_score()
-    df_honor_score = cal_honor_score()
-    df_in_bank_working_experience_score = calculate_in_bank_working_experience_score()
-    df_learning_growing_up_score = cal_learning_growing_up_score()
-    df_out_bank_working_experience_score = calculate_in_bank_working_experience_score()
-    df_professional_ability_score = cal_professional_ability_score()
-    df_punish_score = cal_punish_score()
-    df_relation_score = cal_relation_score()
-    df_working_growing_up_score = cal_working_growing_up_score()
-    df_working_status_score = calculate_working_status_score()
+    df_dimn_gxtp_score = cal_gxtp_score(df_base, df_jiating, df_jianzhi)
+    df_dimn_gzcz_score = cal_gzcz_score(now_year, df_base, df_kaohe, df_longhu, df_xulie)
+    df_dimn_gzlc_score = cal_gzlc_score(df_base, df_xulie, df_working)
+    df_dimn_gzqk_score = cal_gzqk_score(now_year, df_base, df_xulie, df_kol, df_journal, df_kaoqin, df_kaohe, df_longhu)
+    df_dimn_hwjl_score = cal_hwjl_score(now_year, df_base, df_working)
+    df_dimn_rybz_score = cal_rybz_score(now_year, df_honor, df_base)
+    df_dimn_wgcc_score = cal_wgcc_score(now_year, df_weigui, df_base, df_chengchu)
+    df_dimn_xxts_score = cal_xxts_score(now_year, df_base, df_code_education_type, df_code_is_or_not, df_code_xueli, df_code_xuewei, df_peixun,\
+                                  df_pingtai, df_lunxun, df_jiaoyu, df_gaoxiao)
+    df_dimn_zhpc_score = cal_zhpc_score(df_nengli, df_xingge, df_base)
+    df_dimn_zynl_score = cal_zynl_score(df_base, df_code_education_type, df_code_is_or_not, df_code_xueli, df_code_xuewei,\
+                                    df_jiaoyu, df_gaoxiao, df_zhengshu, df_zhengshu_score)
+
 
 
     df_base = pd.read_excel('seqdata\基本信息_20230620170630.xlsx', dtype=str)
@@ -84,7 +187,7 @@ def cal_score(df_base_score, df_weights):
                 col_name = BASE_DICT[col]
                 label_max_val = df_max_val[col_name+'_weight']
                 df_seqc_score[seqc_name] += df_base_score[col_name+'_score'].apply(lambda x: label_max_val if x > label_max_val else x) * row[col_name+'_weight']
-                if col_name not in ['base_dqxl', '']
+                # if col_name not in ['base_dqxl', '']
             
     return df_seqc_score
 
@@ -153,7 +256,7 @@ def cal_score_main():
 
 
 if __name__ == '__main__':
-    cal_score_main()
+    get_source_data()
 
 
 
