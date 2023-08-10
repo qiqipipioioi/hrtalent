@@ -112,7 +112,7 @@ def cal_wgcc_score(now_year, df_weigui, df_base, df_chengchu):
             score = 0
         return score
     
-
+    df_chengchu['a81921'] = df_chengchu['a81921'].apply(lambda x: int(x.year))
     df_chengchu['单一惩处扣分'] = df_chengchu['a81923'].apply(cal_single_chengchu_score)
 
     #当年惩处
@@ -147,6 +147,7 @@ def cal_wgcc_score(now_year, df_weigui, df_base, df_chengchu):
     #往年惩处扣分
     df_chengchu_past = df_chengchu[df_chengchu['a81921'].astype(int) < now_year]
     df_chengchu_past_g = df_chengchu_past[['a0188', 'a81921', '单一惩处扣分']].groupby('a0188').apply(lambda x: cal_chengchu_score(x.values.tolist(), now_year))
+    print(df_chengchu_past_g)
     df_chengchu_past_g.rename('过去纪律处分扣分', inplace=True)
 
 
@@ -155,7 +156,7 @@ def cal_wgcc_score(now_year, df_weigui, df_base, df_chengchu):
 
     df_result.fillna(0, inplace=True)
 
-    df_result.rename(columns={'当年违规行为扣分': 'base_dnwg_score', '过去违规行为扣分': 'base_gqwg_score',\
+    df_result.rename(columns={'当年违规行为扣分': 'base_dnwg_score', '累计违规行为扣分': 'base_gqwg_score',\
                               '当年纪律处分扣分': 'base_dncf_score', '过去纪律处分扣分': 'base_gqcf_score'}, inplace=True)
 
     df_result = df_result[['a0188', 'base_dnwg_score', 'base_gqwg_score', 'base_dncf_score', 'base_gqcf_score']]

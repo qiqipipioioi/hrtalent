@@ -81,7 +81,7 @@ class A8192(Base):
     __tablename__ = 'a8192'
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
     a81923 = Column(VARCHAR(1000), nullable=True)  # 惩罚
-    a81921 = Column(DATETIME(8), nullable=True)  # 惩处年度
+    a81921 = Column(DATETIME, nullable=True)  # 惩处年度
     a0188 = Column(INTEGER, nullable=False)  # 姓名
 
     def __repr__(self):
@@ -141,8 +141,8 @@ class A875(Base):
     # 年度考核子集
     __tablename__ = 'a875'
     recordid = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)  # record id
-    a8759 = Column(VARCHAR(6), nullable=False)  # 年月
     a0188 = Column(INTEGER, nullable=False, index=True)  # 姓名
+    a8759 = Column(VARCHAR(6), nullable=False)  # 年月
     khqk = Column(VARCHAR(20), nullable=False)  # 考核情况
 
     def __repr__(self):

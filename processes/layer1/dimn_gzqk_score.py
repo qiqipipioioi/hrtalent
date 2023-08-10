@@ -71,7 +71,7 @@ def cal_gzqk_score(now_year, df_base, df_xulie, df_kol, df_journal, df_kaoqin, d
     df_result = pd.merge(df_result, df_kaoqin_now_sum_month[['a0188', 'base_cqqk_score']], on='a0188', how='left')
 
     #考核数据读取
-    df_kaohe_now = df_kaohe[df_kaohe['a8759'] == now_year]
+    df_kaohe_now = df_kaohe[df_kaohe['a8759'].astype(str) == now_year]
 
     #考核得分计算
     def cal_kaohe_score(x):
@@ -87,7 +87,7 @@ def cal_gzqk_score(now_year, df_base, df_xulie, df_kol, df_journal, df_kaoqin, d
     df_kaohe_now['考核得分'] = df_kaohe_now.apply(cal_kaohe_score, axis=1)
 
     #龙虎榜数据读取
-    df_longhu_now = df_longhu[df_longhu['year'] == now_year]
+    df_longhu_now = df_longhu[df_longhu['year'].astype(str) == now_year]
 
     #龙虎榜序列重新计算
     df_longhu_now = pd.merge(df_longhu_now, df_xulie[['a0188', 'lvl2_professional_sequence']], on = 'a0188', how='left')
@@ -201,7 +201,7 @@ def cal_gzqk_score(now_year, df_base, df_xulie, df_kol, df_journal, df_kaoqin, d
     df_result = pd.merge(df_result, df_longhu_now, on='a0188', how='left')
     df_result['base_dnyj_score'] = 0.5 * df_result['考核得分'] + 0.5 * df_result['龙虎榜得分']
 
-    df_result = df_result[['base_gjsy_score', 'base_cqqk_score', 'base_dnyj_score']]
+    df_result = df_result[['a0188', 'base_gjsy_score', 'base_cqqk_score', 'base_dnyj_score']]
 
     df_result.fillna(0, inplace=True)
 
